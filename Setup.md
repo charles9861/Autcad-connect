@@ -7,10 +7,10 @@ Here’s a detailed step-by-step strategy for connecting AutoCAD elements to an 
 🧭 Strategy Overview
 
 Use AutoCAD .NET API (ObjectARX / AutoCAD .NET SDK) or AutoLISP/VBA to:
-	1.	Assign and read custom attributes (via Block Attributes or XData/XRecords).
-	2.	Connect to an external database (ODBC, ADO.NET, or Python + pyautocad).
-	3.	Sync drawing data with the external database (push and pull logic).
-	4.	Build a UI or command tools within AutoCAD for user interaction.
+1.	Assign and read custom attributes (via Block Attributes or XData/XRecords).
+2.	Connect to an external database (ODBC, ADO.NET, or Python + pyautocad).
+3.	Sync drawing data with the external database (push and pull logic).
+4.	Build a UI or command tools within AutoCAD for user interaction.
 
 ⸻
 
