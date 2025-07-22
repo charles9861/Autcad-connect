@@ -1,4 +1,4 @@
-Connecting AutoCAD drawing elements (such as blocks or objects) to an external database while managing custom attributes is a common requirement in fields like architecture, engineering, and construction. This approach enables data centralization, automation, and better version control.
+oConnecting AutoCAD drawing elements (such as blocks or objects) to an external database while managing custom attributes is a common requirement in fields like architecture, engineering, and construction. This approach enables data centralization, automation, and better version control.
 
 Here’s a detailed step-by-step strategy for connecting AutoCAD elements to an external database (e.g., MySQL, SQL Server, or SQLite) using AutoCAD’s APIs and attributes.
 
@@ -473,3 +473,115 @@ CREATE TABLE IF NOT EXISTS DrawingObjects (
 
 ⸻
 
+AutoCAD drawing elements (commonly referred to as entities) store a variety of standard data fields, which vary by entity type (line, circle, block, etc.). Below is a breakdown of the most common and important standard data fields that apply across most or all entity types, as well as some entity-specific ones.
+
+⸻
+
+🧱 Common Standard Fields for All Entities
+
+Field Name	Description
+Handle	Unique hexadecimal string identifying the entity (persistent across sessions unless copied).
+ObjectId	Unique runtime ID (session-specific, not persistent like Handle).
+EntityType	The type of the object (e.g., AcDbLine, AcDbBlockReference).
+Layer	Name of the layer the entity is on.
+Color	The assigned color (by layer or specific).
+Linetype	Type of line (e.g., continuous, dashed).
+LinetypeScale	Scale factor for linetype pattern.
+Lineweight	Thickness of the line.
+PlotStyleName	Plot style assigned to the object.
+Visibility	Whether the object is visible.
+ExtensionDictionary	Dictionary for custom data (e.g., via XRecords).
+XData	Extended data attached to entity, usually via reg apps.
+Created/Modified Time	Not exposed by default, but accessible via DXF or event tracking.
+
+
+⸻
+
+🧱 Geometry-Related Fields
+
+Field Name	Description
+Position / Insertion Point	Coordinates for the object’s location.
+StartPoint / EndPoint	Start/end of line, polyline segment, etc.
+Center	Center point (e.g., for circles, arcs).
+Radius / Diameter	Size of circular objects.
+Angle	For arcs, rotated text, or angled lines.
+Normal	Vector perpendicular to object’s plane.
+
+
+⸻
+
+⛓ Block-Specific Fields (BlockReference)
+
+Field Name	Description
+Name	Name of the inserted block.
+Scale Factors	X, Y, Z scale.
+Rotation	Rotation angle (in radians).
+AttributeCollection	List of AttributeReference objects.
+EffectiveName	For dynamic blocks, name after parameters applied.
+DynamicBlockTableRecord	Reference to the dynamic block definition.
+
+
+⸻
+
+🔤 Text/MText Fields
+
+Field Name	Description
+TextString	The actual text content.
+Height	Font height.
+Rotation	Angle of text.
+AttachmentPoint	Justification (left, center, top, etc.).
+StyleName	Text style.
+
+
+⸻
+
+🧩 Polyline & Hatch Fields
+
+Field Name	Description
+Closed	Boolean indicating if polyline is closed.
+NumberOfVertices	For polylines.
+Area	Computed area (for closed regions).
+PatternName	For hatches — hatch pattern used.
+
+
+⸻
+
+🛠 Dimensions & Constraints
+
+Field Name	Description
+DimensionText	The value displayed (e.g. “500mm”).
+Measurement	Actual measured value.
+TextPosition	Where the text is located.
+
+
+⸻
+
+⚙️ Metadata & Custom Data Fields
+
+Type	Description
+XData (Extended Data)	Application-specific extra data stored via RegApp.
+XRecords	More complex storage in ExtensionDictionary.
+Hyperlinks	You can attach URLs to entities.
+Object Reactors	Allow tracking or reacting to changes in linked objects.
+
+
+⸻
+
+📄 How to View These Fields
+
+You can inspect most fields via:
+	•	AutoCAD Properties Panel (Ctrl+1)
+	•	AutoLISP: (entget (car (entsel)))
+	•	C#/.NET: Entity and its properties
+	•	DXF Export: reveals full tag-level data
+	•	pyautocad: via obj.Handle, obj.Layer, obj.EntityName, etc.
+
+⸻
+
+Would you like a downloadable spreadsheet or JSON schema summarizing these fields for each major entity type (line, polyline, block, text, etc.)?
+Here are the downloadable files containing standard AutoCAD data fields:
+
+- 📊 [AutoCAD Standard Fields (Excel)](sandbox:/mnt/data/autocad_standard_fields.xlsx?_chatgptios_conversationID=687a1704-1dcc-8001-a790-23d8084d51de&_chatgptios_messageID=afc9f1f1-0a01-4d99-91f5-1262a7eca089)
+- 🧾 [AutoCAD Standard Fields (JSON)](sandbox:/mnt/data/autocad_standard_fields.json?_chatgptios_conversationID=687a1704-1dcc-8001-a790-23d8084d51de&_chatgptios_messageID=afc9f1f1-0a01-4d99-91f5-1262a7eca089)
+
+These files categorize fields by entity type (common, geometry, blocks, text, etc.) and can be used for documentation or integration planning. Let me know if you'd like a version with DXF group codes or API references included. |oai:code-citation|
